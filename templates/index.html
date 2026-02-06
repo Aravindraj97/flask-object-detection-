@@ -1,63 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>YOLOv8 Object Detection</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(120deg, #1d2671, #c33764);
-            color: white;
-            text-align: center;
-            padding: 40px;
-        }
-        .card {
-            background: white;
-            color: black;
-            padding: 30px;
-            border-radius: 16px;
-            max-width: 600px;
-            margin: auto;
-        }
-        input[type=file] {
-            margin: 15px 0;
-        }
-        button {
-            padding: 12px 25px;
-            font-size: 16px;
-            border: none;
-            border-radius: 8px;
-            background: #1d2671;
-            color: white;
-            cursor: pointer;
-        }
-        img {
-            margin-top: 20px;
-            max-width: 100%;
-            border-radius: 12px;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <title>YOLOv8 Object Detection</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(120deg, #1d2671, #c33764);
+      color: white;
+      text-align: center;
+      padding: 40px;
+    }
+    .card {
+      background: white;
+      color: black;
+      padding: 30px;
+      border-radius: 16px;
+      max-width: 640px;
+      margin: auto;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.2);
+    }
+    input[type=file] { margin: 15px 0; }
+    button {
+      padding: 12px 25px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      background: #1d2671;
+      color: white;
+      cursor: pointer;
+    }
+    img {
+      margin-top: 20px;
+      max-width: 100%;
+      border-radius: 12px;
+      border: 1px solid #ddd;
+    }
+    .error { color: #c1121f; font-weight: bold; }
+  </style>
 </head>
 <body>
+  <h1>YOLOv8 Object Detection</h1>
 
-    <h1>YOLOv8 Object Detection</h1>
+  <div class="card">
+    <form method="POST" enctype="multipart/form-data">
+      <input type="file" name="image" accept=".jpg,.jpeg,.png,.webp,.bmp" required />
+      <br />
+      <button type="submit">Detect Objects</button>
+    </form>
 
-    <div class="card">
-        <form method="POST" enctype="multipart/form-data">
-            <input type="file" name="image" required>
-            <br>
-            <button type="submit">Detect Objects</button>
-        </form>
+    {% if output_image %}
+      <h3>Detection Result</h3>
+      <img src="{{ output_image }}" alt="Detected objects result" />
+    {% endif %}
 
-        {% if output_image %}
-            <h3>Detection Result</h3>
-            <img src="{{ output_image }}">
-        {% endif %}
-
-        {% if error %}
-            <p style="color:red;">{{ error }}</p>
-        {% endif %}
-    </div>
-
+    {% if error %}
+      <p class="error">{{ error }}</p>
+    {% endif %}
+  </div>
 </body>
 </html>
