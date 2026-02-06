@@ -6,79 +6,56 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(120deg, #1d2671, #c33764);
             color: white;
             text-align: center;
-            padding: 30px;
+            padding: 40px;
         }
-
-        .container {
+        .card {
             background: white;
             color: black;
-            padding: 25px;
-            border-radius: 12px;
-            width: 70%;
+            padding: 30px;
+            border-radius: 16px;
+            max-width: 600px;
             margin: auto;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
         }
-
-        h1 {
-            margin-bottom: 20px;
-        }
-
         input[type=file] {
             margin: 15px 0;
         }
-
         button {
-            background: #667eea;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
+            padding: 12px 25px;
             font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            background: #1d2671;
+            color: white;
+            cursor: pointer;
         }
-
-        button:hover {
-            background: #5a67d8;
-        }
-
-        .images {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 30px;
-        }
-
         img {
-            max-width: 45%;
-            border-radius: 10px;
-            border: 2px solid #ddd;
+            margin-top: 20px;
+            max-width: 100%;
+            border-radius: 12px;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>YOLOv8 Object Detection</h1>
+    <h1>YOLOv8 Object Detection</h1>
 
+    <div class="card">
         <form method="POST" enctype="multipart/form-data">
             <input type="file" name="image" required>
             <br>
             <button type="submit">Detect Objects</button>
         </form>
 
-        {% if uploaded_image %}
-        <div class="images">
-            <div>
-                <h3>Original Image</h3>
-                <img src="{{ uploaded_image }}">
-            </div>
-            <div>
-                <h3>Detected Objects</h3>
-                <img src="{{ result_image }}">
-            </div>
-        </div>
+        {% if output_image %}
+            <h3>Detection Result</h3>
+            <img src="{{ output_image }}">
+        {% endif %}
+
+        {% if error %}
+            <p style="color:red;">{{ error }}</p>
         {% endif %}
     </div>
 
