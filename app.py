@@ -55,7 +55,7 @@ def index():
         file.save(image_path)
 
         # Run YOLO detection
-        result = model.predict(
+        results = model.predict(
             source=image_path,
             save=True,
             project=RESULT_FOLDER,
@@ -67,7 +67,7 @@ def index():
         relative_path = os.path.relpath(saved_path,os.path.join(BASE_DIR,"static"))
         output_image = url_for(
             "static",
-            filename=relative_path}"
+            filename=relative_path
         )
 
     return render_template("index.html", output_image=output_image,error=error)
@@ -78,4 +78,3 @@ def index():
 # -----------------------------
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
-
