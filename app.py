@@ -33,38 +33,44 @@ model = YOLO("yolov8n.pt")  # nano model only (safe for Render)
 @app.route("/", methods=["GET", "POST"])
 def index():
     output_image = None
+    error = None
 
     if request.method == "POST":
         if "image" not in request.files:
-            return render_template("index.html", error="No file uploaded")
+            error = "no file uploaded"
+            return render_template("index.html", error=error)
 
         file = request.files["image"]
 
         if file.filename == "":
-            return render_template("index.html", error="No selected file")
+            error="No selected file"
+            return render_template("index.html", error= error)
 
         filename = secure_filename(file.filename)
         image_path = os.path.join(UPLOAD_FOLDER, filename)
 
         # Save uploaded image
+        filename = secure_filename(file.filename)
+        image_path = os.path.join(UPLOAD_FOLDER, filename)
         file.save(image_path)
 
         # Run YOLO detection
-        model.predict(
+        result = model.predict(
             source=image_path,
             save=True,
             project=RESULT_FOLDER,
             name="predict",
             exist_ok=True
         )
+        saved_path = results[0].path
 
-        # Output image path (must be inside static/)
+        relative_path = os.path.relpath(saved_path,os.path.join(BASE_DIR,"static"))
         output_image = url_for(
             "static",
-            filename=f"results/predict/{filename}"
+            filename=relative_path}"
         )
 
-    return render_template("index.html", output_image=output_image)
+    return render_template("index.html", output_image=output_image,error=error)
 
 
 # -----------------------------
@@ -72,3 +78,4 @@ def index():
 # -----------------------------
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
+
